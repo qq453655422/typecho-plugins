@@ -4,9 +4,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 统计代码
  *
  * @package Statistics
- * @author Liudon
- * @version 1.0.0
- * @link http://www.liudon.org
+ * @author Sting
+ * @version 0.0.1
+ *
  */
 class Statistics_Plugin implements Typecho_Plugin_Interface
 {
@@ -19,7 +19,7 @@ class Statistics_Plugin implements Typecho_Plugin_Interface
      */
     public static function activate()
     {
-        Typecho_Plugin::factory('Widget_Archive')->header = array('Statistics_Plugin', 'header');
+        Typecho_Plugin::factory('Widget_Archive')->footer = array('Statistics_Plugin', 'footer');
     }
 
     /**
@@ -42,7 +42,9 @@ class Statistics_Plugin implements Typecho_Plugin_Interface
     public static function config(Typecho_Widget_Helper_Form $form)
     {
         /** 统计代码 */
-        $name = new Typecho_Widget_Helper_Form_Element_Text('code', NULL, '', _t('统计代码'));
+        $server = new Typecho_Widget_Helper_Form_Element_Text('server', NULL, '', _t('统计代码服务商'));
+        $name = new Typecho_Widget_Helper_Form_Element_Textarea('code', NULL, '', _t('统计代码'));
+        $form->addInput($server);
         $form->addInput($name);
     }
 
@@ -61,8 +63,8 @@ class Statistics_Plugin implements Typecho_Plugin_Interface
      * @access public
      * @return void
      */
-    public static function header($header)
+    public static function footer($class)
     {
-        $header .= Helper::options()->plugin('Statistics')->code;
+        echo Helper::options()->plugin('Statistics')->code;
     }
 }
